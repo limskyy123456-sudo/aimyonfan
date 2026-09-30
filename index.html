@@ -289,6 +289,111 @@ body.is-home header.top{display:none}
 .home-foot{margin-top:18px}
 .share-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 18px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
 .credits{margin:22px 0 8px;text-align:center;font-size:11.5px;color:var(--muted)}
+/* 곡 화면 (바운디 구성) */
+body.is-song{overflow:hidden}
+body.is-song header.top,body.is-song nav.tabs{display:none}
+.song-page{position:fixed;inset:0;z-index:40;height:100svh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.song-topbar{flex:none;display:flex;align-items:center;gap:8px;padding:calc(12px + env(safe-area-inset-top)) 12px 12px;background:var(--surface);border-bottom:1px solid var(--line)}
+.back-btn{flex:none;background:none;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 12px;font:inherit;font-size:14px;cursor:pointer}
+.song-nav{flex:1;min-width:0;display:flex;align-items:center;gap:6px}
+.song-nav-btn{flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--line);border-radius:50%;color:var(--ink);cursor:pointer}
+.song-nav-btn svg{width:18px;height:18px}
+.song-nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.song-picker-btn{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--surface2);border:1px solid var(--line);border-radius:999px;color:var(--ink);padding:7px 12px;font:inherit;cursor:pointer}
+.song-picker-title{min-width:0;font-weight:800;font-size:clamp(13px,3.9vw,16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song-picker-caret{flex:none;width:15px;height:15px;color:var(--muted);transition:transform .25s}
+.song-picker-caret svg{width:15px;height:15px}
+.song-picker-btn[aria-expanded="true"] .song-picker-caret{transform:rotate(180deg)}
+.song-body{flex:1;min-height:0;display:flex;flex-direction:column}
+.song-fixed-top{flex:none}
+.video-wrap{max-width:720px;margin:16px auto 0;padding:0 16px}
+.video-frame{position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:var(--shadow)}
+.video-frame iframe,.video-frame > div{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-status{display:flex;align-items:center;justify-content:center;color:#b3a59b;font-size:13px}
+.video-sub{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:11.5px;color:var(--muted)}
+.video-sub > span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.watch-on-yt{flex:none;color:var(--muted);text-decoration:none}
+.lyrics-note{max-width:720px;margin:12px auto 12px;padding:0 16px;font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.lyrics-note .dot{color:var(--accent)}
+.lyrics-scroll{position:relative;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;border-top:1px solid var(--line)}
+.lyrics-list{max-width:720px;margin:10px auto 0;padding:8px 10px 160px;list-style:none}
+.lyric-line{width:100%;display:flex;gap:10px;align-items:flex-start;background:none;border:none;padding:13px 10px;border-radius:10px;text-align:left;cursor:pointer;color:inherit;font:inherit;transition:background-color .18s}
+.lyric-line:hover{background:var(--surface2)}
+.lyric-body{min-width:0;display:block;flex:1}
+.lyric-jp:empty,.lyric-tr:empty{display:none}
+.lyric-jp{display:block;font-size:clamp(13px,3.6vw,14px);color:var(--muted);line-height:1.5}
+.lyric-ko{display:block;font-size:clamp(15px,4.2vw,17px);font-weight:800;line-height:1.5;color:var(--ink)}
+.lyric-tr{display:block;font-size:clamp(12px,3.4vw,13px);color:var(--muted);line-height:1.5;margin-top:1px}
+.lyric-line.active{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.lyric-line.active .lyric-ko{color:var(--accent)}
+.nolyrics{padding:40px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.9}
+.player-controls{position:fixed;right:18px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:45;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.play-toggle{display:none;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);cursor:pointer;box-shadow:var(--shadow)}
+.play-toggle svg{width:20px;height:20px}
+.play-toggle.playing{border-color:var(--accent)}
+.song-page.venue .play-toggle{display:flex}
+.venue-toggle,.autoscroll-toggle{display:flex;align-items:center;gap:7px;min-height:40px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:var(--shadow);font:inherit}
+.venue-toggle:not(.active),.autoscroll-toggle:not(.active){opacity:.75}
+.venue-toggle.active,.autoscroll-toggle.active{border-color:var(--accent)}
+.venue-label,.autoscroll-label{font-size:11px;font-weight:800;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
+.venue-toggle.active .venue-label,.autoscroll-toggle.active .autoscroll-label{color:var(--accent)}
+.venue-switch,.autoscroll-switch{width:26px;height:15px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;padding:1px}
+.venue-knob,.autoscroll-knob{width:11px;height:11px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.venue-toggle.active .venue-knob,.autoscroll-toggle.active .autoscroll-knob{transform:translateX(11px);background:var(--accent)}
+/* 단축모드 — 영상은 화면 밖으로 치우고(소리는 계속) 발음 줄만 크게 */
+.song-page.venue .song-fixed-top{height:0;overflow:visible}
+.song-page.venue .video-wrap{position:fixed;left:-10000px;top:0;width:220px;margin:0;padding:0;opacity:0;pointer-events:none}
+.song-page.venue .lyrics-note{display:none}
+.song-page.venue .lyric-jp,.song-page.venue .lyric-tr{display:none}
+.song-page.venue .lyric-ko{font-size:clamp(19px,5.6vw,26px);line-height:1.45}
+.song-page.venue .lyric-line{padding:15px 10px}
+/* 곡 목록 시트 */
+.song-sheet{position:fixed;inset:0;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.song-sheet.open{opacity:1;pointer-events:auto}
+.song-sheet-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.song-sheet-panel{position:absolute;left:0;right:0;bottom:0;max-height:78svh;display:flex;flex-direction:column;background:var(--surface);border-radius:18px 18px 0 0;padding:8px 0 env(safe-area-inset-bottom);transform:translateY(100%);transition:transform .28s ease;max-width:640px;margin:0 auto}
+.song-sheet.open .song-sheet-panel{transform:translateY(0)}
+.song-sheet-grip{display:block;width:40px;height:4px;border-radius:999px;background:var(--line);margin:4px auto 8px}
+.song-sheet-head{display:flex;align-items:center;gap:8px;padding:0 16px 8px}
+.song-sheet-title{font-weight:800;font-size:16px}
+.song-sheet-count{flex:1;font-size:12px;color:var(--muted)}
+.song-sheet-close{width:30px;height:30px;border:1px solid var(--line);border-radius:50%;background:none;color:var(--ink);cursor:pointer}
+.sheet-search{padding:0 16px 8px}
+.sheet-search input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
+.song-sheet-list{list-style:none;margin:0;padding:0 8px 12px;overflow-y:auto}
+.song-sheet-item{width:100%;display:flex;align-items:center;gap:10px;padding:10px;border:0;border-radius:10px;background:none;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.song-sheet-item:hover{background:var(--surface2)}
+.song-sheet-name{flex:1;min-width:0;font-weight:600;font-size:14.5px}
+.song-sheet-name small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.song-sheet-item.current{background:var(--accent-soft)}
+.song-sheet-item.current .song-sheet-name{color:var(--accent);font-weight:800}
+.song-sheet-now{font-size:11px;font-weight:800;color:var(--accent)}
+.sheet-empty{padding:30px;text-align:center;color:var(--muted)}
+/* PC 등 큰 화면: 영상 왼쪽 / 가사 오른쪽 2단 */
+@media (min-width:900px){
+  .song-body{flex-direction:row;align-items:stretch}
+  .song-fixed-top{flex:1 1 62%;min-width:0;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;padding:16px 0 24px}
+  .song-fixed-top .video-wrap{margin-top:0;width:100%;max-width:min(100%,calc((100svh - 250px) * 16 / 9));padding:0 24px}
+  .song-fixed-top .lyrics-note{margin-left:auto;margin-right:auto;width:100%;max-width:min(100%,calc((100svh - 250px) * 16 / 9));padding:0 24px}
+  .lyrics-scroll{flex:1 1 38%;min-width:0;border-top:none;border-left:1px solid var(--line)}
+  .lyrics-list{margin-top:0;padding:16px 18px 160px}
+  .song-page.venue .lyrics-scroll{border-left:none}
+}
+/* 싱크 맞추기 도구 */
+.sync-top{position:sticky;top:54px;z-index:5;background:var(--bg);padding-bottom:8px}
+.sync-top .video-frame{margin-top:6px}
+.sync-btns{display:flex;gap:8px;margin-top:10px}
+.sync-tap{flex:1;justify-content:center;font-size:16px;padding:12px}
+.sync-tap:disabled{opacity:.5}
+.sync-state{margin-top:6px}
+.sync-list{list-style:none;margin:8px 0 12px;padding:0}
+.sync-list li{display:flex;gap:10px;padding:9px 8px;border-radius:10px}
+.sync-list li.next{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.sync-list li.done{opacity:.55}
+.sync-t{flex:none;width:52px;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);padding-top:2px}
+.sync-l b{display:block;font-size:15px}
+.sync-l small{display:block;font-size:12px;color:var(--muted)}
+.sync-out textarea{width:100%;margin:8px 0;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:12px/1.5 ui-monospace,monospace}
 footer{margin:34px 0 10px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7}
 
 /* 하단 탭 */
@@ -410,7 +515,7 @@ const DATA = {
     { id:"OjamaShimasu", jp:"おじゃまします", ko:"실례합니다", rom:"Ojama Shimasu", date:"2025.10.22", vtype:"audio",
       youtubeId:"LhABuKr15Y0", lyricsShift:0, lyricsTimes:[], lyricsTime:0, lyricsText:``, lyrics:[] },
     { id:"VenusBelt", jp:"ビーナスベルト", ko:"비너스 벨트", rom:"Venus Belt", date:"2025.10.22", vtype:"mv",
-      youtubeId:"3ve2xQxfhbE", lyricsShift:5, lyricsTimes:[30.70, 38.49, 46.47, 50.96, 54.43, 62.54, 70.64, 78.12, 86.17, 96.08, 104.20, 111.85, 120.00, 127.78, 135.77, 143.67, 151.58, 159.53, 167.80, 175.23, 183.30, 187.72, 193.23, 201.34, 209.14, 218.42, 225.16, 231.29, 235.86, 245.30, 250.77, 258.85, 266.68, 274.74, 282.43, 290.62, 298.38, 307.68, 314.25], lyricsTime:0, lyricsText:`夕方に語りかける鳥のように
+      youtubeId:"3ve2xQxfhbE", lyricsShift:5.3, lyricsTimes:[30.70, 38.49, 46.47, 50.96, 54.43, 62.54, 70.64, 78.12, 86.17, 96.08, 104.20, 111.85, 120.00, 127.78, 135.77, 143.67, 151.58, 159.53, 167.80, 175.23, 183.30, 187.72, 193.23, 201.34, 209.14, 218.42, 225.16, 231.29, 235.86, 245.30, 250.77, 258.85, 266.68, 274.74, 282.43, 290.62, 298.38, 307.68, 314.25], lyricsTime:0, lyricsText:`夕方に語りかける鳥のように
 유우가타니 카타리카케루 토리노 요-니
 해 질 녘에 속삭이는 새처럼
 
@@ -1097,6 +1202,13 @@ function viewHome(){
         <span class="menu-label">팬클럽 AIM 가입 가이드</span>
         <span class="menu-go">›</span>
       </a>
+      <!-- ▼ 임시: 가사 싱크 맞추기 (가사 다 맞추면 이 덩어리 지우기) ▼ -->
+      <a class="menu-row" href="sync.html">
+        <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span>
+        <span class="menu-label">가사 싱크 맞추기 <small class="muted" style="font-weight:400">임시</small></span>
+        <span class="menu-go">›</span>
+      </a>
+      <!-- ▲ 임시 끝 ▲ -->
       <a class="menu-row" href="#/goods">
         <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span>
         <span class="menu-label">굿즈 · 한국에서 사는 법</span>
@@ -1528,41 +1640,133 @@ function viewMv(id){
   ${footer()}`;
 }
 
+/* ============ 곡 화면 (바운디 곡 화면과 같은 구성 · 응원 기능 없음) ============
+   위: ← · 이전 / 곡 제목(누르면 곡 목록) / 다음 · 테마
+   가운데: 영상 → 안내 한 줄 → 가사 (PC에서는 영상 왼쪽 / 가사 오른쪽)
+   오른쪽 아래: 재생(단축모드일 때만) · 단축모드 · AUTO SCROLL */
+const I_LEFT  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>`;
+const I_RIGHT = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>`;
+const I_CARET = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+const I_PLAY  = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+const I_PAUSE = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>`;
+const I_MOON  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>`;
+try { mv.venue = localStorage.getItem("mv-venue") === "1"; } catch(e){ mv.venue = false; }
+
 function viewMvSong(song){
-  const list = mvSorted(), i = list.findIndex(s => s.id === song.id);
-  const prev = list[(i - 1 + list.length) % list.length], next = list[(i + 1) % list.length];
   const lines = song.lyrics || [];
+  const hasVideo = !!song.youtubeId;
   return `
-  <div class="mvhead">
-    ${mv.from ? `<a class="back" id="mvBack" href="${mv.from.hash}">‹ ${esc(mv.from.label)}</a>` : `<a class="back" href="#/mv">‹ 뮤비 목록</a>`}
-    <span class="mvnav">
-      <a class="icon-btn" href="#/mv/${encodeURIComponent(prev.id)}" aria-label="이전 곡: ${esc(prev.ko)}">‹</a>
-      <a class="icon-btn" href="#/mv/${encodeURIComponent(next.id)}" aria-label="다음 곡: ${esc(next.ko)}">›</a>
-    </span>
-  </div>
-  <h1 class="mvtitle">${esc(song.ko)}</h1>
-  <p class="sub">${esc(song.jp)} · ${esc(song.date)}</p>
-  <div class="mvvideo">
-    <div class="ratio">
-      <div id="yt"></div>
-      ${song.youtubeId ? "" : `<div class="novideo">아직 영상이 연결되지 않은 곡이에요<br><small>youtubeId 에 영상 주소의 v= 뒤 글자를 넣으면 재생돼요</small></div>`}
+  <div class="song-page${mv.venue ? " venue" : ""}" id="songPage">
+    <div class="song-topbar">
+      <button class="back-btn" id="songBack" aria-label="${esc(mv.from ? mv.from.label : "뮤비 목록")}으로">←</button>
+      <nav class="song-nav" aria-label="곡 이동">
+        <button class="song-nav-btn" id="prevSong" aria-label="이전 곡">${I_LEFT}</button>
+        <button class="song-picker-btn" id="pickerBtn" aria-expanded="false" aria-haspopup="dialog" title="곡 목록 열기">
+          <span class="song-picker-title">${esc(song.ko)}</span>
+          <span class="song-picker-caret">${I_CARET}</span>
+        </button>
+        <button class="song-nav-btn" id="nextSong" aria-label="다음 곡">${I_RIGHT}</button>
+      </nav>
+      <button class="song-nav-btn" id="songTheme" aria-label="화면 테마 바꾸기">${I_MOON}</button>
     </div>
-  </div>
-  <div class="mvbar small">
-    ${song.youtubeId ? `<a href="https://www.youtube.com/watch?v=${esc(song.youtubeId)}" target="_blank" rel="noopener">${song.vtype === "mv" ? "유튜브 뮤비로 보기" : "유튜브 공식 음원으로 듣기"} ↗</a>` : `<span class="muted">영상 없음</span>`}
-    <button class="chip" id="mvAuto" aria-pressed="${mv.auto}">자동 스크롤</button>
-  </div>
-  ${song.unsynced && lines.length ? `<p class="small muted" style="margin:0 0 8px">가사 시간이 아직 없어서 영상과 따라가지 않아요.</p>` : ""}
-  <div class="card mvlyrics" id="mvLyrics">
-    ${lines.length ? lines.map((l, k) => `
-      <button class="ly" data-i="${k}" data-t="${l.time}">
-        <span class="jp">${esc(l.jp)}</span>
-        <span class="ko">${esc(typeof l.ko === "string" ? l.ko : "")}</span>
-        <span class="tr">${esc(l.tr)}</span>
-      </button>`).join("")
-      : `<p class="nolyrics muted">아직 가사가 없어요.<br><small>index.html 의 이 곡 칸 <b>lyricsText</b> 안에 붙여 넣으면 여기에 나와요.</small></p>`}
-  </div>
-  ${footer()}`;
+
+    <div class="song-body">
+      <div class="song-fixed-top">
+        <div class="video-wrap">
+          <div class="video-frame">
+            <div id="yt"></div>
+            ${hasVideo ? "" : `<div class="video-status">아직 영상이 연결되지 않은 곡이에요</div>`}
+          </div>
+          <div class="video-sub">
+            <span>${esc(song.jp)} · ${esc(song.date)}</span>
+            ${hasVideo ? `<a class="watch-on-yt" href="https://www.youtube.com/watch?v=${esc(song.youtubeId)}" target="_blank" rel="noopener">${song.vtype === "mv" ? "유튜브에서 보기" : "유튜브 공식 음원"} ↗</a>` : ""}
+          </div>
+        </div>
+        <div class="lyrics-note"><span class="dot">●</span> ${lines.length && !song.unsynced
+          ? "가사를 탭하면 해당 위치로 영상이 이동해요. 영상 재생 상태에 따라 가사 하이라이트가 동기화됩니다."
+          : lines.length ? `이 곡은 가사 시간이 아직 없어서 영상과 따라가지 않아요. ${hasVideo ? `<a href="#/sync/${encodeURIComponent(song.id)}">싱크 맞추기 ›</a>` : ""}` : "아직 가사가 없어요."}</div>
+      </div>
+
+      <div class="lyrics-scroll" id="lyricsScroll">
+        <ul class="lyrics-list" id="lyricsList">
+          ${lines.length ? lines.map((l, k) => `
+            <li><button class="lyric-line" data-i="${k}" data-t="${l.time}">
+              <span class="lyric-body">
+                <span class="lyric-jp">${esc(l.jp)}</span>
+                <span class="lyric-ko">${esc(typeof l.ko === "string" ? l.ko : "")}</span>
+                <span class="lyric-tr">${esc(l.tr)}</span>
+              </span>
+            </button></li>`).join("")
+            : `<li class="nolyrics">index.html 의 이 곡 칸 <b>lyricsText</b> 안에 가사를 붙여 넣으면 여기에 나와요.</li>`}
+        </ul>
+      </div>
+    </div>
+
+    <div class="player-controls">
+      <button class="play-toggle" id="playToggle" aria-label="재생 / 일시정지">${I_PLAY}</button>
+      <button class="venue-toggle${mv.venue ? " active" : ""}" id="venueBtn" aria-label="단축모드 켜기/끄기" aria-pressed="${mv.venue}">
+        <span class="venue-label">단축모드</span>
+        <span class="venue-switch"><span class="venue-knob"></span></span>
+      </button>
+      <button class="autoscroll-toggle${mv.auto ? " active" : ""}" id="autoBtn" aria-label="자동 스크롤 켜기/끄기" aria-pressed="${mv.auto}">
+        <span class="autoscroll-label">AUTO SCROLL</span>
+        <span class="autoscroll-switch"><span class="autoscroll-knob"></span></span>
+      </button>
+    </div>
+
+    <div class="song-sheet" id="songSheet" aria-hidden="true" inert>
+      <div class="song-sheet-backdrop" data-close></div>
+      <div class="song-sheet-panel" role="dialog" aria-modal="true" aria-label="곡 선택">
+        <span class="song-sheet-grip"></span>
+        <div class="song-sheet-head">
+          <span class="song-sheet-title">곡 선택</span>
+          <span class="song-sheet-count">${SONGS.length}곡</span>
+          <button class="song-sheet-close" data-close aria-label="닫기">✕</button>
+        </div>
+        <div class="sheet-search"><input id="sheetQ" type="search" autocomplete="off" placeholder="곡 제목 검색 (한국어·일본어·로마자)"></div>
+        <ul class="song-sheet-list" id="sheetList"></ul>
+      </div>
+    </div>
+  </div>`;
+}
+
+function mvGo(delta){
+  const list = mvSorted(), i = list.findIndex(s => s.id === mv.song.id);
+  const t = list[(i + delta + list.length) % list.length];
+  mv.autoplay = true;
+  location.hash = "#/mv/" + encodeURIComponent(t.id);
+}
+function paintSheet(){
+  const q = mvSquash($("#sheetQ").value || "");
+  const items = mvSorted().filter(s => !q || mvSquash(s.ko).includes(q) || mvSquash(s.jp).includes(q) || mvSquash(s.rom).includes(q));
+  $("#sheetList").innerHTML = items.length ? items.map(s => `
+    <li><button class="song-sheet-item${s.id === mv.song.id ? " current" : ""}" data-id="${esc(s.id)}">
+      <span class="song-sheet-name">${esc(s.ko)}<small>${esc(s.jp)}</small></span>
+      ${s.id === mv.song.id ? `<span class="song-sheet-now">재생 중</span>` : mvBadge(s)}
+    </button></li>`).join("") : `<li class="sheet-empty">찾는 곡이 없어요</li>`;
+}
+function openSheet(open){
+  const sh = $("#songSheet"); if (!sh) return;
+  sh.classList.toggle("open", open); sh.inert = !open; sh.setAttribute("aria-hidden", !open);
+  $("#pickerBtn").setAttribute("aria-expanded", open);
+  if (open){
+    paintSheet();
+    const cur = sh.querySelector(".current"); if (cur) cur.scrollIntoView({ block:"center" });
+  }
+}
+function applyVenue(){
+  const page = $("#songPage"); if (!page) return;
+  page.classList.toggle("venue", mv.venue);
+  $("#venueBtn").classList.toggle("active", mv.venue);
+  $("#venueBtn").setAttribute("aria-pressed", mv.venue);
+  mv.active = -1;                           // 글자 크기가 바뀌므로 현재 줄로 다시 맞춘다
+}
+function updatePlayBtn(){
+  const b = $("#playToggle"); if (!b || !mv.player || !mv.ready) return;
+  let st = -1; try { st = mv.player.getPlayerState(); } catch(e){}
+  const playing = st === 1 || st === 3;
+  b.classList.toggle("playing", playing);
+  b.innerHTML = playing ? I_PAUSE : I_PLAY;
 }
 
 function bindMv(id){
@@ -1575,17 +1779,49 @@ function bindMv(id){
       mv.order = MV_ORDERS[(MV_ORDERS.indexOf(mv.order) + 1) % MV_ORDERS.length];
       e.currentTarget.textContent = MV_LABEL[mv.order]; mvSave(); mvRows();
     };
+    $("#mvList").addEventListener("click", e => { if (e.target.closest(".mvrow")) mv.listY = window.scrollY; });
     return;
   }
   mv.song = song; mv.active = -1;
-  const back = $("#mvBack"); if (back) back.onclick = () => { pendingScroll = mv.from.y; };
-  $("#mvAuto").onclick = e => { mv.auto = !mv.auto; e.currentTarget.setAttribute("aria-pressed", mv.auto); mvSave(); };
-  document.querySelectorAll("#mvLyrics .ly").forEach(b => b.onclick = () => {
+  document.body.classList.add("is-song");
+
+  $("#songBack").onclick = () => {
+    if (mv.from){ pendingScroll = mv.from.y; location.hash = mv.from.hash; }
+    else { pendingScroll = mv.listY || 0; location.hash = "#/mv"; }
+  };
+  $("#prevSong").onclick = () => mvGo(-1);
+  $("#nextSong").onclick = () => mvGo(1);
+  $("#songTheme").onclick = () => $("#themeBtn").click();
+  $("#pickerBtn").onclick = () => openSheet(!$("#songSheet").classList.contains("open"));
+  $("#songSheet").addEventListener("click", e => {
+    if (e.target.closest("[data-close]")) return openSheet(false);
+    const it = e.target.closest(".song-sheet-item");
+    if (it){ openSheet(false); if (it.dataset.id !== song.id){ mv.autoplay = true; location.hash = "#/mv/" + encodeURIComponent(it.dataset.id); } }
+  });
+  $("#sheetQ").addEventListener("input", paintSheet);
+
+  $("#venueBtn").onclick = () => { mv.venue = !mv.venue; try { localStorage.setItem("mv-venue", mv.venue ? "1" : ""); } catch(e){} applyVenue(); };
+  $("#autoBtn").onclick = e => { mv.auto = !mv.auto; e.currentTarget.classList.toggle("active", mv.auto); e.currentTarget.setAttribute("aria-pressed", mv.auto); mvSave(); if (mv.auto) mv.active = -1; };
+  $("#playToggle").onclick = () => {
+    if (!mv.player || !mv.ready) return;
+    let st = -1; try { st = mv.player.getPlayerState(); } catch(e){}
+    try { (st === 1 || st === 3) ? mv.player.pauseVideo() : mv.player.playVideo(); } catch(e){}
+  };
+  $("#lyricsList").addEventListener("click", e => {
+    const b = e.target.closest(".lyric-line"); if (!b) return;
     const t = Number(b.dataset.t);
     if (mv.player && mv.ready && song.youtubeId && !song.unsynced && isFinite(t)){
       try { mv.player.seekTo(Math.max(0, t - 0.15), true); mv.player.playVideo(); } catch(e){}
     }
   });
+  mv.keys = e => {
+    if (!$("#songPage")) return;
+    if (e.target.matches("input")) return;
+    if (e.key === "Escape") openSheet(false);
+    else if (e.key === "ArrowLeft") mvGo(-1);
+    else if (e.key === "ArrowRight") mvGo(1);
+  };
+  document.addEventListener("keydown", mv.keys);
   mvMount(song);
 }
 
@@ -1601,15 +1837,17 @@ function mvMount(song){
   if (!song.youtubeId) return;
   mvLoadApi();
   if (!window.YT || !window.YT.Player){ setTimeout(() => { if (mv.song === song && $("#yt")) mvMount(song); }, 300); return; }
+  const auto = mv.autoplay ? 1 : 0; mv.autoplay = false;
   mv.player = new YT.Player("yt", {
     videoId: song.youtubeId,
-    playerVars: { rel:0, playsinline:1, modestbranding:1 },
+    playerVars: { rel:0, playsinline:1, modestbranding:1, autoplay:auto },
     events: {
-      onReady: () => { mv.ready = true; mvTick(song); },
-      onStateChange: () => mvTick(song)
+      onReady: () => { mv.ready = true; mvTick(song); updatePlayBtn(); },
+      onStateChange: () => { mvTick(song); updatePlayBtn(); }
     }
   });
 }
+/* 가사 하이라이트 · 자동 스크롤 (가사 칸 안에서만 움직인다) */
 function mvTick(song){
   clearInterval(mv.timer);
   if (song.unsynced || !(song.lyrics || []).length) return;
@@ -1622,19 +1860,20 @@ function mvTick(song){
     for (let i = 0; i < lines.length; i++){ if (t + 0.25 >= lines[i].time) idx = i; else break; }
     if (idx === mv.active) return;
     mv.active = idx;
-    const nodes = document.querySelectorAll("#mvLyrics .ly");
-    nodes.forEach((el, i) => el.classList.toggle("on", i === idx));
-    if (mv.auto && idx >= 0 && nodes[idx]){
-      const video = $(".mvvideo"), top = video ? video.getBoundingClientRect().bottom : 0;
-      const room = window.innerHeight - top;
-      const y = window.scrollY + nodes[idx].getBoundingClientRect().top - top - room * 0.3;
-      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    const nodes = document.querySelectorAll("#lyricsList .lyric-line");
+    nodes.forEach((el, i) => el.classList.toggle("active", i === idx));
+    const box = $("#lyricsScroll");
+    if (mv.auto && idx >= 0 && nodes[idx] && box){
+      const top = nodes[idx].offsetTop - box.clientHeight * 0.38 + nodes[idx].offsetHeight / 2;
+      box.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
     }
   }, 120);
 }
 function mvCleanup(){
   clearInterval(mv.timer); mv.timer = null;
   if (mv.player){ try { mv.player.destroy(); } catch(e){} }
+  if (mv.keys){ document.removeEventListener("keydown", mv.keys); mv.keys = null; }
+  document.body.classList.remove("is-song");
   mv.player = null; mv.ready = false; mv.song = null;
 }
 
@@ -1764,10 +2003,88 @@ function bindSetlist(){
   });
 }
 
+/* ============ 가사 싱크 맞추기 도구 (#/sync/곡id) ============
+   영상을 틀어 놓고 각 소절이 시작될 때 버튼(또는 스페이스바)을 누르면
+   lyricsTimes 숫자가 만들어진다. 다 누른 뒤 '복사'해서 index.html 에 붙여 넣으면 끝. */
+const syncS = { song:null, times:[], player:null, ready:false, timer:null };
+function viewSync(id){
+  const song = SONGS.find(s => s.id === decodeURIComponent(id || ""));
+  if (!song) return `<p class="sub" style="margin-top:20px">곡을 찾을 수 없어요.</p>`;
+  const lines = song.lyrics || [];
+  return `
+  <div class="sync-page">
+    <div class="sync-top">
+      <a class="back" href="#/mv/${encodeURIComponent(song.id)}">‹ ${esc(song.ko)}</a>
+      <h1 style="margin:6px 0 2px">싱크 맞추기</h1>
+      <p class="sub">영상을 재생하고, 강조된 줄이 <b>불리기 시작할 때</b> 아래 버튼(PC는 스페이스바)을 누르세요.</p>
+      <div class="video-frame"><div id="syncYt"></div></div>
+      <div class="sync-btns">
+        <button class="btn" id="syncUndo">↶ 한 줄 취소</button>
+        <button class="btn primary sync-tap" id="syncTap">지금 이 줄 시작!</button>
+      </div>
+      <div class="sync-state small muted" id="syncState"></div>
+    </div>
+    ${lines.length ? `<ol class="sync-list" id="syncList">${lines.map((l, i) => `
+      <li data-i="${i}"><span class="sync-t">--</span><span class="sync-l"><b>${esc(typeof l.ko === "string" ? l.ko : "")}</b><small>${esc(l.jp)}</small></span></li>`).join("")}</ol>
+      <div class="card sync-out">
+        <div class="small muted">다 누르면 아래 한 줄을 복사해서, index.html 의 이 곡 칸 <code>lyricsShift:0, lyricsTimes:[],</code> 부분에 바꿔 붙여 넣으세요.</div>
+        <textarea id="syncOut" readonly rows="3"></textarea>
+        <button class="btn" id="syncCopy">복사</button>
+      </div>`
+      : `<div class="card small">이 곡은 아직 가사가 없어요. 먼저 index.html 의 이 곡 칸 <b>lyricsText</b> 에 가사를 넣어 주세요.</div>`}
+  </div>`;
+}
+function syncPaint(){
+  const n = syncS.times.length, lines = syncS.song.lyrics || [];
+  document.querySelectorAll("#syncList li").forEach((li, i) => {
+    li.classList.toggle("done", i < n); li.classList.toggle("next", i === n);
+    li.querySelector(".sync-t").textContent = i < n ? syncS.times[i].toFixed(2) : "--";
+  });
+  const nx = document.querySelector("#syncList li.next");
+  if (nx) nx.scrollIntoView({ block:"center", behavior:"smooth" });
+  $("#syncState").textContent = n >= lines.length ? `완료! ${lines.length}줄 모두 찍었어요.` : `${n} / ${lines.length}줄`;
+  $("#syncOut").value = `lyricsShift:0, lyricsTimes:[${syncS.times.map(t => t.toFixed(2)).join(", ")}],`;
+  $("#syncTap").disabled = n >= lines.length;
+}
+function syncMark(){
+  if (!syncS.player || !syncS.ready) return;
+  const lines = syncS.song.lyrics || [];
+  if (syncS.times.length >= lines.length) return;
+  let t = 0; try { t = syncS.player.getCurrentTime(); } catch(e){ return; }
+  syncS.times.push(Math.max(0, t - 0.15));      // 누르는 반응 시간만큼 살짝 앞당김
+  syncPaint();
+}
+function bindSync(id){
+  const song = SONGS.find(s => s.id === decodeURIComponent(id || ""));
+  if (!song || !(song.lyrics || []).length) return;
+  syncS.song = song; syncS.times = []; syncS.ready = false;
+  $("#syncTap").onclick = syncMark;
+  $("#syncUndo").onclick = () => { syncS.times.pop(); syncPaint(); };
+  $("#syncCopy").onclick = async () => {
+    try { await navigator.clipboard.writeText($("#syncOut").value); $("#syncCopy").textContent = "복사했어요"; }
+    catch(e){ $("#syncOut").select(); }
+  };
+  syncS.keys = e => { if (e.code === "Space" && $("#syncTap")){ e.preventDefault(); syncMark(); } };
+  document.addEventListener("keydown", syncS.keys);
+  syncPaint();
+  const mount = () => {
+    if (!$("#syncYt")) return;
+    if (!window.YT || !window.YT.Player){ mvLoadApi(); setTimeout(mount, 300); return; }
+    syncS.player = new YT.Player("syncYt", { videoId: song.youtubeId, playerVars:{ rel:0, playsinline:1 },
+      events:{ onReady: () => { syncS.ready = true; } } });
+  };
+  if (song.youtubeId) mount();
+}
+function syncCleanup(){
+  if (syncS.player){ try { syncS.player.destroy(); } catch(e){} }
+  if (syncS.keys){ document.removeEventListener("keydown", syncS.keys); syncS.keys = null; }
+  syncS.player = null; syncS.ready = false;
+}
+
 /* ============ 라우터 ============ */
-const ROUTES = { "":viewHome, schedule:viewSchedule, fanclub:viewFanclub, goods:viewGoods, join:viewJoin, mv:viewMv, setlist:viewSetlist };
+const ROUTES = { "":viewHome, schedule:viewSchedule, fanclub:viewFanclub, goods:viewGoods, join:viewJoin, mv:viewMv, setlist:viewSetlist, sync:viewSync };
 function render(){
-  mvCleanup();
+  mvCleanup(); syncCleanup();
   const [r, arg] = location.hash.replace(/^#\/?/, "").split("/");
   const view = ROUTES[r] || viewHome;
   $("#app").innerHTML = view(arg);
@@ -1780,6 +2097,7 @@ function render(){
   if (view === viewJoin) bindJoin();
   if (view === viewMv) bindMv(arg);
   if (view === viewSetlist) bindSetlist(arg);
+  if (view === viewSync) bindSync(arg);
 }
 let pendingScroll = null;
 window.addEventListener("hashchange", () => { render(); window.scrollTo(0, pendingScroll ?? 0); pendingScroll = null; });
