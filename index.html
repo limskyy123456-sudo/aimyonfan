@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>아이묭 한국 팬 가이드 (비공식)</title>
+<title>Aimyon (비공식 팬 가이드)</title>
 <meta name="description" content="아이묭(あいみょん) 일정·팬클럽 가입·굿즈 구매 방법을 한국 팬 기준으로 정리한 비공식 팬사이트">
 <meta name="theme-color" content="#fbf6ee" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1c1715" media="(prefers-color-scheme: dark)">
@@ -238,6 +238,57 @@ code{background:var(--surface2);border-radius:4px;padding:1px 5px;font-size:13px
 .set-go{flex:none;color:var(--muted);font-size:18px}
 .set-enc{margin:4px -16px 0;padding:8px 16px 4px;border-top:1px dashed var(--line);font-size:11.5px;font-weight:800;letter-spacing:.1em;color:var(--accent)}
 .set-enc + .set-row{border-top:none}
+/* 홈 (바운디 구성) */
+body.is-home header.top{display:none}
+.home-hero{position:relative;text-align:center;padding:calc(56px + env(safe-area-inset-top)) 0 10px;display:flex;flex-direction:column;align-items:center}
+.home-hero::before{content:"";position:absolute;left:-16px;right:-16px;top:0;height:78svh;z-index:-1;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 20%,transparent) 0%,color-mix(in srgb,var(--bg) 55%,transparent) 55%,var(--bg) 100%),url('images/home-bg.jpg') center 30%/cover no-repeat,
+  radial-gradient(120% 70% at 50% 0%,var(--accent-soft) 0%,transparent 70%)}
+.hero-theme{position:absolute;top:calc(14px + env(safe-area-inset-top));right:0;background:color-mix(in srgb,var(--surface) 80%,transparent)}
+.home-title{margin:0;font-size:clamp(52px,16vw,84px);font-weight:800;letter-spacing:-.01em;line-height:1}
+.next-cap{margin-top:30px;font-size:12px;font-weight:700;letter-spacing:.18em;color:var(--muted);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.next-cap:empty{display:none}
+.countdown{margin-top:10px;display:flex;justify-content:center;width:100%}
+.cd-pill{display:inline-flex;align-items:center;gap:clamp(12px,3.4vw,18px);padding:clamp(11px,3vw,15px) clamp(20px,5.6vw,30px);border-radius:10px;background:var(--ink);color:var(--bg)}
+.cd-dday,.cd-clock{font-size:clamp(28px,8.2vw,38px);line-height:1;font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.cd-clock{font-weight:600;opacity:.88}
+.cd-sep{width:1px;align-self:stretch;background:currentColor;opacity:.3}
+.cd-pill.is-live{background:var(--accent);color:#fff}
+.cd-pill.is-end{background:var(--surface2);color:var(--muted)}
+.cd-pill.is-end .cd-sep,.cd-pill.is-end .cd-clock{display:none}
+.show-meta{margin-top:26px;width:100%;max-width:420px;text-align:left}
+.show-meta:empty{display:none}
+.show-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:13px 2px;border-top:1px solid var(--line);color:inherit;text-decoration:none}
+.show-day{font-size:clamp(18px,5vw,22px);font-weight:800;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.show-day .dow{margin-left:6px;font-size:.7em;color:var(--muted);letter-spacing:.08em}
+.show-time{font-size:clamp(16px,4.4vw,20px);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+.show-time .go{margin-left:8px;font-size:.7em;opacity:.5}
+.show-row.past{opacity:.38}
+.show-row.live .show-day,.show-row.live .show-time{color:var(--accent)}
+.show-venue{display:block;padding-top:13px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.08em;color:var(--muted);text-decoration:none}
+.main-menu{margin-top:30px;width:100%;max-width:420px}
+.menu-btn{display:block;padding:15px;border-radius:14px;background:var(--accent);color:#fff;font-size:17px;font-weight:800;text-decoration:none;letter-spacing:.02em}
+.menu-card{margin-top:14px;width:100%;max-width:420px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.menu-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;cursor:pointer;list-style:none;font-weight:700;font-size:15px}
+.menu-card > .menu-row:first-child,.menu-card > .menu-acc:first-child > .menu-row{border-top:none}
+.menu-row::-webkit-details-marker{display:none}
+.menu-ico{flex:none;width:22px;height:22px;color:var(--accent)}
+.menu-ico svg{width:22px;height:22px}
+.menu-label{flex:1}
+.menu-go,.menu-chev{color:var(--muted);font-size:18px}
+.menu-acc[open] .menu-chev{transform:rotate(180deg)}
+.menu-panel{padding:0 16px 12px}
+.live-item{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:14px}
+.live-item:first-child{border-top:none}
+.live-date{flex:none;width:118px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;padding-top:1px}
+.live-name{flex:1;min-width:0;font-weight:600;line-height:1.4}
+.live-name small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.live-more{display:block;padding-top:8px;font-size:13px;font-weight:700;text-decoration:none}
+.menu-links{display:flex;gap:6px;padding:12px 16px 14px;border-top:1px solid var(--line)}
+.menu-chip{flex:1;text-align:center;padding:9px 6px;border:1px solid var(--line);border-radius:999px;color:var(--ink);font-size:13px;font-weight:600;text-decoration:none}
+.home-foot{margin-top:18px}
+.share-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 18px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.credits{margin:22px 0 8px;text-align:center;font-size:11.5px;color:var(--muted)}
 footer{margin:34px 0 10px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7}
 
 /* 하단 탭 */
@@ -297,7 +348,7 @@ const DATA = {
     { type:"release", date:"2026-10-04T22:15", title:"신곡 「さながらロンリー」 첫 공개", note:"ABC·TV아사히 일요 드라마 『もうパパ！』 주제가 · 첫 방송에서 공개", src:"https://www.aimyong.net/news/detail/3622" },
 
     // ── 공연 ──
-    { type:"live", date:"2026-11-30T18:30", end:"2026-12-01", title:"AIMYON 10th anniversary LIVE 2026「、、、」IN 日本武道館", venue:"니혼 부도칸", city:"도쿄", note:"개장 17:30 · 개연 18:30 · 첫 밴드 편성 부도칸", src:"https://ticketjam.jp/magazine/music/jpop/132472" },
+    { type:"live", date:"2026-11-30T18:30", end:"2026-12-01", title:"AIMYON 10th anniversary LIVE 2026「、、、」IN 日本武道館", short:"10th「、、、」IN 日本武道館", venue:"니혼 부도칸", city:"도쿄", note:"개장 17:30 · 개연 18:30 · 첫 밴드 편성 부도칸", src:"https://ticketjam.jp/magazine/music/jpop/132472" },
 
     { type:"live", tour:"cosmic", date:"2027-02-06", end:"2027-02-07", venue:"피아 아레나 MM", city:"가나가와" },
     { type:"live", tour:"cosmic", date:"2027-02-13", end:"2027-02-14", venue:"선돔 후쿠이", city:"후쿠이" },
@@ -359,7 +410,161 @@ const DATA = {
     { id:"OjamaShimasu", jp:"おじゃまします", ko:"실례합니다", rom:"Ojama Shimasu", date:"2025.10.22", vtype:"audio",
       youtubeId:"LhABuKr15Y0", lyricsShift:0, lyricsTimes:[], lyricsTime:0, lyricsText:``, lyrics:[] },
     { id:"VenusBelt", jp:"ビーナスベルト", ko:"비너스 벨트", rom:"Venus Belt", date:"2025.10.22", vtype:"mv",
-      youtubeId:"3ve2xQxfhbE", lyricsShift:0, lyricsTimes:[], lyricsTime:0, lyricsText:``, lyrics:[] },
+      youtubeId:"3ve2xQxfhbE", lyricsShift:0, lyricsTimes:[30.70, 38.49, 46.47, 50.96, 54.43, 62.54, 70.64, 78.12, 86.17, 96.08, 104.20, 111.85, 120.00, 127.78, 135.77, 143.67, 151.58, 159.53, 167.80, 175.23, 183.30, 187.72, 193.23, 201.34, 209.14, 218.42, 225.16, 231.29, 235.86, 245.30, 250.77, 258.85, 266.68, 274.74, 282.43, 290.62, 298.38, 307.68, 314.25], lyricsTime:0, lyricsText:`夕方に語りかける鳥のように
+유우가타니 카타리카케루 토리노 요-니
+해 질 녘에 속삭이는 새처럼
+
+ただ囁くくらいでいいから
+타다 사사야쿠 쿠라이데 이이카라
+그저 속삭이는 정도로 괜찮으니까
+
+心を読み聞かせて欲しい
+코코로오 요미키카세테 호시이
+내 마음을 읽어 들려줬으면 해
+
+むかし、むかし
+무카시 무카시
+옛날 옛적에
+
+ある所で出会った2人みたいに
+아루 토코로데 데앗타 후타리 미타이니
+어딘가에서 만난 두 사람처럼
+
+約束はもう果たせないかな？
+야쿠소쿠와 모- 하타세나이카나
+그 약속은 이제 더 이상 지킬 수 없는 걸까?
+
+君の気持ちは どこか新しい場所で
+키미노 키모치와 도코카 아타라시이 바쇼데
+너의 마음은 어딘가 새로운 곳에서
+
+はじまりの合図 鳴らしてしまったの？
+하지마리노 아이즈 나라시테시맛타노
+시작의 신호를 울려버린 걸까?
+
+なのに何故 今僕の元へ会いに来たの
+나노니 나제 이마 보쿠노 모토에 아이니 키타노
+그런데 왜 지금 나를 만나러 온 거야
+
+明らかに染まる 君の頬
+아키라카니 소마루 키미노 호호
+선명히 물든 너의 뺨
+
+泣いたりしたんだろうな 隠せてない
+나이타리 시탄다로-나 카쿠세테나이
+울었겠지, 숨기지 못했잖아
+
+崩れた砂場に 残る跡
+쿠즈레타 스나바니 노코루 아토
+무너진 모래밭에 남은 자국
+
+蹴り飛ばした想いを教えて
+케리토바시타 오모이오 오시에테
+걷어차 버린 그 마음을 말해줘
+
+つまりは僕にまだ可能性が有ることも
+츠마리와 보쿠니 마다 카노-세-가 아루 코토모
+즉, 아직 내게 가능성이 남아있다는 것도
+
+君の表情見てれば分かったよ
+키미노 효-죠- 미테레바 와캇타요
+네 표정을 보면 알 수 있었어
+
+卑怯な女だって思われるのが怖い事も
+히쿄-나 온나닷테 오모와레루노가 코와이 코토모
+비겁한 여자라고 생각될까봐 두려운 것도
+
+新しい場所が気になる事も
+아타라시이 바쇼가 키니 나루 코토모
+새로운 곳이 신경 쓰인다는 것도
+
+正直辛いけど ちょっぴり慣れてる
+쇼-지키 츠라이케도 춋피리 나레테루
+솔직히 괴롭지만 조금은 익숙해졌어
+
+それも切ない気がして 悲しくなるけど
+소레모 세츠나이 키가 시테 카나시쿠 나루케도
+그조차도 애틋하게 느껴져서 슬퍼지지만
+
+それを突き抜けるほど 期待してしまう
+소레오 츠키누케루호도 키타이시테시마우
+그걸 뛰어넘을 만큼 기대하게 돼
+
+まだ帰らないでいてほしい
+마다 카에라나이데 이테 호시이
+아직은 돌아가지 말아줘
+
+君に 君に
+키미니 키미니
+너에게, 너에게
+
+ゆるやかに伸びる この坂の
+유루야카니 노비루 코노 사카노
+완만하게 이어지는 이 언덕의
+
+終わりなんて無くたっていいのにな
+오와리난테 나쿠탓테 이이노니나
+끝 따윈 없어도 좋을 텐데
+
+何話してたか 分からなくなって
+나니 하나시테타카 와카라나쿠 낫테
+무슨 이야길 했는지도 알 수 없게 되어서
+
+笑っちゃったの 覚えてる？
+와랏챳타노 오보에테루
+웃어버렸던 거 기억해?
+
+僕ら 何度だってすれ違った
+보쿠라 난도닷테 스레치갓타
+우린 몇 번이고 엇갈렸고
+
+何度だって離れたんだ
+난도닷테 하나레탄다
+몇 번이고 멀어졌지
+
+今もただ 試練を与えられてんだ
+이마모 타다 시렌오 아타에라레텐다
+지금도 여전히 시련을 겪고 있는 거야
+
+きっと
+킷토
+아마도
+
+明らかに染まる 君の頬
+아키라카니 소마루 키미노 호호
+선명히 물든 너의 뺨
+
+泣いたりしたんだろうな 隠せてない
+나이타리 시탄다로-나 카쿠세테나이
+울었겠지, 숨기지 못했잖아
+
+崩れた砂場に 残る跡
+쿠즈레타 스나바니 노코루 아토
+무너진 모래밭에 남은 자국
+
+蹴り飛ばした想いを教えて
+케리토바시타 오모이오 오시에테
+걷어차 버린 그 마음을 말해줘
+
+ゆるやかに伸びる この坂の
+유루야카니 노비루 코노 사카노
+완만하게 이어지는 이 언덕의
+
+終わりなんて無くたっていいのにな
+오와리난테 나쿠탓테 이이노니나
+끝 따윈 없어도 좋을 텐데
+
+何話してたか 分からなくなって
+나니 하나시테타카 와카라나쿠 낫테
+무슨 이야길 했는지 알 수 없게 되어서
+
+笑っちゃったの 覚えてる？
+와랏챳타노 오보에테루
+웃어버렸던 거 기억해?
+
+明らかに染まる
+아키라카니 소마루
+선명히 물들어가`, lyrics:[] },
     { id:"IchiniTsuite", jp:"いちについて", ko:"제자리에", rom:"Ichi ni Tsuite", date:"2025.07.23", vtype:"mv",
       youtubeId:"KCg88Jg1aTU", lyricsShift:0, lyricsTimes:[], lyricsTime:0, lyricsText:``, lyrics:[] },
     { id:"Sketch", jp:"スケッチ", ko:"스케치", rom:"Sketch", date:"2025.03.05", vtype:"mv",
@@ -716,7 +921,7 @@ const CONCERT_FESTS = [
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#/"><span class="dot"></span>아이묭 팬 가이드</a>
+    <a class="logo" href="#/"><span class="dot"></span>Aimyon</a>
     <span class="badge-unofficial">비공식</span>
     <span class="spacer"></span>
     <button class="icon-btn" id="themeBtn" aria-label="화면 테마 바꾸기">
@@ -808,55 +1013,169 @@ function evRow(e){
 }
 const sorted = () => [...DATA.events].sort((a,b) => toDate(a.date) - toDate(b.date));
 
-/* ============ 화면: 홈 ============ */
+/* ============ 화면: 홈 (바운디 사이트와 같은 구성) ============
+   제목 → NEXT LIVE → D-day 알약 → 공연 날짜 줄 → 메인 버튼 → 메뉴 카드 → 공유 */
+const DOW_EN = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+const pad = n => String(n).padStart(2, "0");
+const kstMs = (ymd, hm) => new Date(`${ymd}T${hm || "00:00"}:00+09:00`).getTime();
+const liveTitle = e => (e.short || e.title || (e.tour ? DATA.tours[e.tour].title : "")).replace(/^AIMYON\s+/, "");
+const liveSrc = e => e.src || (e.tour ? DATA.tours[e.tour].src : DATA.links.official);
+
+/* 공연(여러 날짜 포함)을 하루씩 풀어 놓는다 */
+function liveDays(){
+  const out = [];
+  sorted().filter(e => e.type === "live").forEach((e, gi) => {
+    const first = e.date.slice(0, 10), time = e.date.includes("T") ? e.date.slice(11, 16) : "";
+    const last = (e.end || first).slice(0, 10);
+    for (let t = kstMs(first); t <= kstMs(last); t += 864e5){
+      const ymd = new Date(t + 9 * 36e5).toISOString().slice(0, 10);
+      out.push({ e, gi, ymd, time,
+        dayFrom: kstMs(ymd), dayTo: kstMs(ymd) + 864e5,
+        startMs: time ? kstMs(ymd, time) : null,
+        dow: new Date(kstMs(ymd) + 9 * 36e5).getUTCDay() });
+    }
+  });
+  return out;
+}
+function focusLiveDay(now){ return liveDays().find(x => now < x.dayTo) || null; }
+
 function viewHome(){
-  const now = new Date();
-  const nextLive = sorted().find(e => e.type === "live" && toDate(e.end || e.date, true) >= now);
   const L = DATA.links;
+  const now = Date.now();
+  const upcoming = [];
+  sorted().filter(e => e.type === "live" && toDate(e.end || e.date, true) >= new Date(now)).forEach(e => {
+    const g = e.tour && upcoming.find(u => u.tour === e.tour);
+    if (g){ g.end = e.end || e.date; g.count++; return; }
+    upcoming.push({ ...e, count: 1 });
+  });
+  upcoming.forEach(u => { if (u.tour && u.count > 1){ u.venue = `전국 ${u.count}곳`; u.city = ""; u.title = DATA.tours[u.tour].title; } });
   return `
-  <h1>아이묭 한국 팬 가이드</h1>
-  <p class="sub">일정 · 팬클럽 가입 · 굿즈 구매를 한국 팬 기준으로 정리했어요.</p>
+  <section class="home-hero">
+    <button class="icon-btn hero-theme" data-theme-btn aria-label="화면 테마 바꾸기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <h1 class="home-title">Aimyon</h1>
 
-  ${nextLive ? `
-  <section class="card hero" aria-live="polite">
-    <div class="label">다음 공연까지</div>
-    <div class="title">${esc(evTitle(nextLive))}</div>
-    <div class="meta">${esc(dateRange(nextLive))} · ${esc([nextLive.venue, nextLive.city].filter(Boolean).join(" · "))}</div>
-    <div class="count" id="count" data-t="${nextLive.date}">
-      <div><b id="cd-d">-</b><span>일</span></div>
-      <div><b id="cd-h">-</b><span>시간</span></div>
-      <div><b id="cd-m">-</b><span>분</span></div>
-      <div><b id="cd-s">-</b><span>초</span></div>
+    <div class="next-cap" id="next-cap">NEXT LIVE</div>
+    <div class="countdown">
+      <div class="cd-pill" id="cd-pill">
+        <span class="cd-dday" id="cd-dday">D-00</span>
+        <span class="cd-sep"></span>
+        <span class="cd-clock" id="cd-clock">00:00:00</span>
+      </div>
     </div>
-  </section>` : ""}
+    <div class="show-meta" id="next-live"></div>
 
-  <h2>바로가기</h2>
-  <div class="links">
-    <a href="${L.official}" target="_blank" rel="noopener">공식 사이트<small>aimyong.net</small></a>
-    <a href="${L.fanclub}" target="_blank" rel="noopener">팬클럽 AIM<small>공식 · 월 440엔</small></a>
-    <a href="${L.store}" target="_blank" rel="noopener">AIM STORE<small>공식 굿즈 스토어</small></a>
-    <a href="#/join">AIM 가입 가이드<small>일본·해외 계정 만들기</small></a>
-    <a href="#/mv">뮤비 · 가사<small>뮤직비디오와 가사 함께 보기</small></a>
-    <a href="#/setlist">셋리스트<small>원맨 투어 · 페스 곡 순서</small></a>
-  </div>
-  <p class="small" style="margin:10px 0 0">공식 SNS · <a href="${L.youtube}" target="_blank" rel="noopener">YouTube</a> · <a href="${L.x}" target="_blank" rel="noopener">X</a> · <a href="${L.instagram}" target="_blank" rel="noopener">Instagram</a> · <a href="${L.line}" target="_blank" rel="noopener">LINE</a></p>
-  ${footer()}`;
+    <nav class="main-menu">
+      <a class="menu-btn" href="#/mv">뮤비 · 가사</a>
+    </nav>
+
+    <div class="menu-card">
+      <details class="menu-acc">
+        <summary class="menu-row">
+          <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+          <span class="menu-label">라이브 일정</span>
+          <span class="menu-chev">⌄</span>
+        </summary>
+        <div class="menu-panel">
+          ${upcoming.length ? upcoming.map(e => `
+            <a class="live-item" href="${liveSrc(e)}" target="_blank" rel="noopener">
+              <span class="live-date">${esc(e.end ? `${fmt(e.date)} ~ ${fmt(e.end)}` : fmt(e.date))}</span>
+              <span class="live-name">${esc(liveTitle(e))}<small>${esc([e.venue, e.city].filter(Boolean).join(" · "))}</small></span>
+            </a>`).join("") : `<p class="muted small">발표된 공연이 없어요.</p>`}
+          <a class="live-more" href="#/schedule">티켓 일정까지 전체 보기 ›</a>
+        </div>
+      </details>
+
+      <a class="menu-row" href="#/setlist">
+        <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></span>
+        <span class="menu-label">콘서트 셋리스트</span>
+        <span class="menu-go">›</span>
+      </a>
+      <a class="menu-row" href="#/join">
+        <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="9" cy="12" r="2"/><path d="M14 11h4M14 14h3"/></svg></span>
+        <span class="menu-label">팬클럽 AIM 가입 가이드</span>
+        <span class="menu-go">›</span>
+      </a>
+      <a class="menu-row" href="#/goods">
+        <span class="menu-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></span>
+        <span class="menu-label">굿즈 · 한국에서 사는 법</span>
+        <span class="menu-go">›</span>
+      </a>
+
+      <div class="menu-links">
+        <a class="menu-chip" href="${L.official}" target="_blank" rel="noopener">공식사이트 ↗</a>
+        <a class="menu-chip" href="${L.youtube}" target="_blank" rel="noopener">YouTube ↗</a>
+      </div>
+    </div>
+
+    <div class="home-foot">
+      <button class="share-btn" type="button" id="shareBtn">공유하기</button>
+    </div>
+  </section>
+  <div class="credits">AIMYON · 비공식 팬 제작 가이드 · 아이묭 및 소속사와 관계없어요</div>`;
+}
+
+let nextLiveGi = -2;
+function paintNextLive(focus){
+  const box = $("#next-live"), cap = $("#next-cap");
+  const gi = focus ? focus.gi : -1;
+  if (gi === nextLiveGi) return;
+  nextLiveGi = gi;
+  if (!focus){ box.innerHTML = ""; cap.textContent = ""; return; }
+  cap.textContent = "NEXT LIVE · " + liveTitle(focus.e);
+  const days = liveDays().filter(x => x.gi === gi);
+  box.innerHTML = days.map(x => `
+    <a class="show-row" data-day="${x.ymd}" href="${liveSrc(x.e)}" target="_blank" rel="noopener">
+      <span class="show-day">${x.ymd.slice(5).replace("-", ".")}<span class="dow">${DOW_EN[x.dow]}</span></span>
+      <span class="show-time">${x.time || "TBA"}<span class="go">↗</span></span>
+    </a>`).join("")
+    + `<a class="show-venue" href="${liveSrc(focus.e)}" target="_blank" rel="noopener">${esc([focus.e.venue, focus.e.city].filter(Boolean).join(" · "))}</a>`;
+}
+function setPill(dday, clock, mode){
+  const pill = $("#cd-pill"); if (!pill) return;
+  $("#cd-dday").textContent = dday;
+  $("#cd-clock").textContent = clock || "";
+  pill.classList.toggle("is-live", mode === "live");
+  pill.classList.toggle("is-end", mode === "end");
 }
 let cdTimer = null;
 function startCountdown(){
   clearInterval(cdTimer);
-  const el = $("#count"); if (!el) return;
-  const t = toDate(el.dataset.t);
+  nextLiveGi = -2;
   const tick = () => {
-    let ms = Math.max(0, t - new Date());
-    const d = Math.floor(ms/864e5); ms -= d*864e5;
-    const h = Math.floor(ms/36e5);  ms -= h*36e5;
-    const m = Math.floor(ms/6e4);   ms -= m*6e4;
-    const s = Math.floor(ms/1e3);
-    $("#cd-d").textContent = d; $("#cd-h").textContent = h;
-    $("#cd-m").textContent = String(m).padStart(2,"0"); $("#cd-s").textContent = String(s).padStart(2,"0");
+    if (!$("#cd-pill")){ clearInterval(cdTimer); return; }
+    const now = Date.now(), focus = focusLiveDay(now);
+    paintNextLive(focus);
+    document.querySelectorAll(".show-row[data-day]").forEach(r => {
+      const d = liveDays().find(x => x.ymd === r.dataset.day && x.gi === (focus && focus.gi));
+      r.classList.toggle("past", !!d && now >= d.dayTo);
+      r.classList.toggle("live", !!d && now >= d.dayFrom && now < d.dayTo);
+    });
+    if (!focus){ setPill("END", "", "end"); clearInterval(cdTimer); return; }
+    if (focus.startMs !== null && now >= focus.startMs){ setPill("NOW", "ON AIR", "live"); return; }
+    if (focus.startMs === null && now >= focus.dayFrom){ setPill("D-DAY", "TODAY", "live"); return; }
+    const target = focus.startMs !== null ? focus.startMs : focus.dayFrom;
+    // D-day는 한국 날짜끼리 뺀다 (내일 공연이면 남은 시간이 24시간 미만이어도 D-01)
+    const todayKst = kstMs(new Date(now + 9 * 36e5).toISOString().slice(0, 10));
+    const d = Math.round((focus.dayFrom - todayKst) / 864e5);
+    if (focus.startMs === null){ setPill(`D-${pad(d)}`, "TBA", "count"); return; }
+    const diff = target - now;
+    const h = Math.floor(diff / 36e5) % 24, m = Math.floor(diff % 36e5 / 6e4), s = Math.floor(diff % 6e4 / 1e3);
+    setPill(`D-${pad(d)}`, `${pad(h)}:${pad(m)}:${pad(s)}`, "count");
   };
   tick(); cdTimer = setInterval(tick, 1000);
+}
+function bindHome(){
+  $("#shareBtn").onclick = async () => {
+    const data = { title: "Aimyon", text: "아이묭 한국 팬을 위한 비공식 가이드", url: location.origin + location.pathname };
+    try {
+      if (navigator.share) await navigator.share(data);
+      else { await navigator.clipboard.writeText(data.url); $("#shareBtn").textContent = "주소를 복사했어요"; }
+    } catch(e){}
+  };
+  const tb = document.querySelector("[data-theme-btn]");
+  if (tb) tb.onclick = () => $("#themeBtn").click();
 }
 
 /* ============ 화면: 일정 ============ */
@@ -1455,7 +1774,8 @@ function render(){
   const tab = r === "join" ? "fanclub" : r === "setlist" ? "mv" : (ROUTES[r] ? r : "");
   document.querySelectorAll("nav.tabs a").forEach(a => a.toggleAttribute("aria-current", a.dataset.r === tab));
   document.querySelectorAll("nav.tabs a[aria-current]").forEach(a => a.setAttribute("aria-current","page"));
-  if (view === viewHome) startCountdown(); else clearInterval(cdTimer);
+  document.body.classList.toggle("is-home", view === viewHome);
+  if (view === viewHome){ startCountdown(); bindHome(); } else clearInterval(cdTimer);
   if (view === viewSchedule) bindSchedule();
   if (view === viewJoin) bindJoin();
   if (view === viewMv) bindMv(arg);
