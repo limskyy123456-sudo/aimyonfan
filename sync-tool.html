@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>가사 싱크 맞추기</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f3f5f8;--surface:#fff;--surface2:#e8edf3;--ink:#1f2630;--muted:#687384;--line:#dbe2ea;--accent:#2d5f93;--accent-soft:#dde8f4;--now:#d63a3a;--now-soft:#fde4e2}
+@media (prefers-color-scheme: dark){:root{--bg:#12161c;--surface:#1b2129;--surface2:#232b35;--ink:#e9eef4;--muted:#9aa6b5;--line:#2c3643;--accent:#86b4e6;--accent-soft:#1f3149;--now:#ff7b72;--now-soft:#3d2326}}
+*{box-sizing:border-box}
+html{touch-action:manipulation}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 120px}
+h1{font-size:22px;margin:4px 0 2px}
+.sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.card h2{font-size:15px;margin:0 0 8px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit}
+@media (hover:none) and (pointer:coarse){input,textarea{font-size:16px!important}}
+textarea{font:13px/1.6 ui-monospace,Consolas,monospace;resize:vertical}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 13px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){.btn.primary{color:#0f1a28}}
+.btn:disabled{opacity:.45;cursor:default}
+.small{font-size:12.5px}.muted{color:var(--muted)}
+code{background:var(--surface2);border-radius:5px;padding:0 4px;font-size:.92em}
+details summary{cursor:pointer;font-weight:700;font-size:15px}
+details[open] summary{margin-bottom:8px}
+/* 위쪽 고정: 영상 + 버튼 */
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0}
+.frame{position:relative;width:100%;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000}
+.frame>div,.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.frame .ph{display:flex;align-items:center;justify-content:center;color:#9aa6b5;font-size:13px}
+.taps{display:flex;gap:8px;margin-top:8px}
+.tap{flex:1;justify-content:center;font-size:16px;padding:12px}
+.tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tools .btn{font-size:12.5px;padding:5px 10px}
+.state{margin-top:6px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.toggle.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+/* 가사 목록 */
+.list{list-style:none;margin:8px 0 12px;padding:0}
+.list li{display:flex;gap:10px;padding:9px 8px;border-radius:10px;cursor:pointer}
+.list li:hover{background:var(--surface2)}
+.list li.next{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.list li.done{opacity:.6}
+.list li.play{opacity:1;background:var(--now-soft);box-shadow:inset 3px 0 0 var(--now)}
+.list .t{flex:none;width:56px;font-variant-numeric:tabular-nums;font-size:12.5px;color:var(--muted);padding-top:2px}
+.list .l{min-width:0}
+.list .l b{display:block;font-size:15px}
+.list .l small{display:block;font-size:12px;color:var(--muted)}
+.list .l i{display:block;font-style:normal;font-size:12px;color:var(--muted);opacity:.8}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>가사 싱크 맞추기</h1>
+  <p class="sub">유튜브 영상을 틀어 놓고, 강조된 줄이 <b>불리기 시작할 때</b> 버튼(PC는 스페이스바)을 누르면 <code>lyricsTimes</code> 가 만들어져요. 입력한 내용은 이 브라우저에 자동 저장돼요.</p>
+
+  <div class="card">
+    <h2>① 영상</h2>
+    <div class="row">
+      <input type="text" id="yt" placeholder="유튜브 주소 또는 영상 ID (예: https://youtu.be/xxxx)" style="flex:1;min-width:200px">
+      <button class="btn primary" id="ytLoad">영상 불러오기</button>
+    </div>
+  </div>
+
+  <details class="card" id="lyBox" open>
+    <summary>② 가사 (붙여넣기 · 수정)</summary>
+    <div class="small muted">일본어 / 한글 발음 / 해석 순서로 한 줄씩 (사이트 <code>lyricsText</code> 와 같은 형식). 빈 줄은 무시돼요. <code>[clap]</code> 같은 응원 표시, <code>pic: 이름</code>, <code>+ 떼창</code> 줄도 그대로 써도 돼요.</div>
+    <textarea id="lyText" rows="14" spellcheck="false" style="margin-top:8px" placeholder="ひとつため息をついて&#10;히토츠 타메이키오 츠이테&#10;한번 한숨을 쉬며&#10;..."></textarea>
+    <div class="row" style="margin-top:8px">
+      <button class="btn primary" id="lyApply">가사 적용</button>
+      <span class="small muted" id="lyCount"></span>
+    </div>
+  </details>
+
+  <details class="card" id="oldBox">
+    <summary>③ 기존 타임라인 불러오기 (선택)</summary>
+    <div class="small muted">사이트에 이미 있는 값을 붙여 넣으세요. <code>lyricsShift:1.3, lyricsTimes:[36.73, 42.80, …]</code> 처럼 통째로 넣어도 되고, 숫자만 넣어도 돼요. lyricsShift 는 각 시간에 더해서 불러와요.</div>
+    <textarea id="oldText" rows="3" spellcheck="false" style="margin-top:8px" placeholder="lyricsShift:0, lyricsTimes:[1.30, 6.84, 13.79, ...]"></textarea>
+    <div class="row" style="margin-top:8px"><button class="btn primary" id="oldLoad">불러오기</button></div>
+  </details>
+
+  <div class="top">
+    <div class="frame"><div id="player"><div class="ph">① 에서 영상을 불러오세요</div></div></div>
+    <div class="taps">
+      <button class="btn" id="undo">↶ 한 줄 취소</button>
+      <button class="btn primary tap" id="tap">지금 이 줄 시작!</button>
+    </div>
+    <div class="tools">
+      <button class="btn toggle" id="check" title="찍은 시간대로 재생 중인 줄을 빨갛게 표시">👀 확인 모드</button>
+      <button class="btn" id="minus">전체 −0.1초</button>
+      <button class="btn" id="plus">전체 +0.1초</button>
+      <button class="btn" id="reset">처음부터</button>
+    </div>
+    <div class="state"><span id="state"></span><span class="muted">줄을 누르면 그 줄부터 다시 찍어요</span></div>
+  </div>
+
+  <ol class="list" id="list"></ol>
+
+  <div class="card">
+    <h2>결과</h2>
+    <div class="small muted">타임라인 — 곡 칸의 <code>lyricsShift:…, lyricsTimes:[…],</code> 부분을 이 한 줄로 바꿔 넣으세요.</div>
+    <textarea id="outTimes" rows="3" readonly style="margin-top:6px"></textarea>
+    <button class="btn" id="copyTimes" style="margin-top:6px">타임라인 복사</button>
+    <div class="small muted" style="margin-top:14px">가사 — 가사를 고쳤다면 곡 칸의 <code>lyricsText:`…`</code> 부분을 이 내용으로 바꿔 넣으세요.</div>
+    <textarea id="outText" rows="5" readonly style="margin-top:6px"></textarea>
+    <button class="btn" id="copyText" style="margin-top:6px">가사 복사</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+const KEY = "lyric-sync-tool";
+const S = { lines:[], times:[], player:null, ready:false, check:false, follow:true, timer:null };
+
+/* ── 가사 읽기 (사이트와 같은 규칙) ── 일본어 다음 줄이 한글이면 발음, 그다음 한글 줄은 해석 */
+const HANGUL = /[가-힣]/;
+const CHEER_TOKEN = /[\[(](?:wave|clap|mic|chant|jump|spin|turn|banzai|manse|sway|side)[\])]/gi;
+const PIC_ROW = /^pic\s*[:：]\s*(.+)$/i;
+const BG_ROW = /^[+＋]\s*/;
+function parseLyrics(text){
+  const rows = String(text || "").split(/\r?\n/).map(t => t.trim()).filter(t => t && !/^[-–—ㅡ_=~「」『』"'`\s]+$/.test(t));
+  const special = t => t !== undefined && (PIC_ROW.test(t) || BG_ROW.test(t));
+  const bare = t => String(t).replace(/^\[\d+(?:\.\d+)?\]\s*/, "").replace(CHEER_TOKEN, "").replace(/[{}]/g, "");
+  const out = [];
+  for (let i = 0; i < rows.length; ){
+    const row = rows[i];
+    if (PIC_ROW.test(row) || BG_ROW.test(row)){
+      if (out.length && BG_ROW.test(row)){ const l = out[out.length - 1]; l.bg = (l.bg ? l.bg + " " : "") + row.replace(BG_ROW, ""); }
+      i++; continue;
+    }
+    const first = row.replace(/^\[\d+(?:\.\d+)?\]\s*/, "");
+    const next = rows[i + 1], third = rows[i + 2];
+    if (!HANGUL.test(bare(row)) && next !== undefined && !special(next) && HANGUL.test(bare(next))){
+      const hasTr = third !== undefined && !special(third) && HANGUL.test(bare(third));
+      out.push({ jp:first, ko:next, tr: hasTr ? third : "" }); i += hasTr ? 3 : 2;
+    } else { out.push({ jp:"", ko:first, tr:"" }); i += 1; }
+  }
+  return out;
+}
+const clean = t => String(t || "").replace(CHEER_TOKEN, "").replace(/[{}]/g, "").trim();
+
+/* ── 저장 ── */
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({ yt:$("#yt").value, text:$("#lyText").value, old:$("#oldText").value, times:S.times })); } catch(e){} }
+function load(){ try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e){ return {}; } }
+
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove("show"), 1600); }
+
+/* ── 화면 ── */
+function renderList(){
+  $("#list").innerHTML = S.lines.length ? S.lines.map((l, i) => `
+    <li data-i="${i}"><span class="t">--</span><span class="l"><b>${esc(clean(l.ko))}</b>${l.jp ? `<small>${esc(clean(l.jp))}</small>` : ""}${l.tr ? `<i>${esc(clean(l.tr))}</i>` : ""}</span></li>`).join("")
+    : `<li class="small muted" style="cursor:default">② 에 가사를 넣고 [가사 적용]을 누르세요.</li>`;
+  $("#lyCount").textContent = S.lines.length ? `${S.lines.length}줄` : "";
+  paint();
+}
+function paint(){
+  const n = S.times.length;
+  document.querySelectorAll("#list li[data-i]").forEach((li, i) => {
+    li.classList.toggle("done", i < n); li.classList.toggle("next", !S.check && i === n);
+    li.querySelector(".t").textContent = i < n ? S.times[i].toFixed(2) : "--";
+  });
+  if (S.follow && !S.check){ const nx = document.querySelector("#list li.next"); if (nx) nx.scrollIntoView({ block:"center", behavior:"smooth" }); }
+  $("#state").textContent = !S.lines.length ? "" : n >= S.lines.length ? `완료! ${S.lines.length}줄 모두 찍었어요` : `${n} / ${S.lines.length}줄`;
+  $("#tap").disabled = !S.lines.length || n >= S.lines.length || S.check;
+  $("#outTimes").value = `lyricsShift:0, lyricsTimes:[${S.times.map(t => t.toFixed(2)).join(", ")}],`;
+  $("#outText").value = "lyricsText:`\n" + $("#lyText").value.trim().split("\n").map(l => l.trim()).join("\n").replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${") + "\n`,";
+  save();
+}
+
+/* ── 유튜브 ── */
+function ytId(v){
+  v = String(v || "").trim();
+  const m = v.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/); if (m) return m[1];
+  return /^[\w-]{11}$/.test(v) ? v : "";
+}
+function loadApi(cb){
+  if (window.YT && YT.Player) return cb();
+  window.onYouTubeIframeAPIReady = cb;
+  if (!document.getElementById("ytapi")){ const s = document.createElement("script"); s.id = "ytapi"; s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s); }
+}
+function mount(){
+  const id = ytId($("#yt").value); if (!id) return toast("유튜브 주소를 확인해 주세요");
+  loadApi(() => {
+    if (S.player){ try { S.player.loadVideoById(id); S.player.pauseVideo(); } catch(e){} return; }
+    $("#player").innerHTML = "<div id='yt-el'></div>";
+    S.player = new YT.Player("yt-el", { videoId:id, playerVars:{ rel:0, playsinline:1 }, events:{ onReady:() => { S.ready = true; } } });
+  });
+  save();
+}
+const now = () => { try { return S.player.getCurrentTime(); } catch(e){ return null; } };
+
+/* ── 동작 ── */
+function mark(){
+  if (!S.ready || S.check || S.times.length >= S.lines.length) return;
+  const t = now(); if (t == null) return;
+  S.times.push(Math.max(0, t - 0.15));        // 누르는 반응 시간만큼 살짝 앞당김
+  S.follow = true; paint();
+}
+$("#tap").onclick = mark;
+$("#undo").onclick = () => { S.times.pop(); paint(); };
+$("#reset").onclick = () => { if (S.times.length && !confirm("찍은 시간을 모두 지우고 처음부터 할까요?")) return; S.times = []; paint(); };
+$("#minus").onclick = () => { S.times = S.times.map(t => Math.max(0, t - 0.1)); S.follow = false; paint(); toast("전체 0.1초 앞당김"); };
+$("#plus").onclick = () => { S.times = S.times.map(t => t + 0.1); S.follow = false; paint(); toast("전체 0.1초 늦춤"); };
+$("#ytLoad").onclick = mount;
+$("#yt").addEventListener("keydown", e => { if (e.key === "Enter") mount(); });
+$("#lyApply").onclick = () => {
+  S.lines = parseLyrics($("#lyText").value);
+  if (S.times.length > S.lines.length) S.times = S.times.slice(0, S.lines.length);
+  S.follow = false; renderList(); toast(`가사 ${S.lines.length}줄 적용`);
+};
+$("#lyText").addEventListener("input", () => { save(); $("#outText").value = "lyricsText:`\n" + $("#lyText").value.trim() + "\n`,"; });
+$("#oldLoad").onclick = () => {
+  const v = $("#oldText").value;
+  const sh = Number((v.match(/lyricsShift\s*:\s*(-?\d+(?:\.\d+)?)/) || [])[1]) || 0;
+  const arr = (v.match(/lyricsTimes\s*:\s*\[([^\]]*)\]/) || [null, v])[1];
+  const nums = (arr.match(/-?\d+(?:\.\d+)?/g) || []).map(Number).map(t => Math.max(0, t + sh));
+  if (!nums.length) return toast("숫자를 찾지 못했어요");
+  S.times = S.lines.length ? nums.slice(0, S.lines.length) : nums;
+  S.follow = false; paint();
+  toast(`기존 타임라인 ${S.times.length}줄 불러옴${sh ? ` (shift ${sh} 더함)` : ""}`);
+};
+/* 줄 누르기: 그 줄부터 다시 찍기 / 확인 모드면 그 위치로 이동 */
+$("#list").onclick = e => {
+  const li = e.target.closest("li[data-i]"); if (!li) return;
+  const i = +li.dataset.i;
+  if (S.check){ if (S.times[i] != null && S.ready){ S.player.seekTo(S.times[i], true); S.player.playVideo(); } return; }
+  if (i < S.times.length && !confirm(`${i + 1}번째 줄부터 다시 찍을까요? (그 뒤 시간은 지워져요)`)) return;
+  const prev = i > 0 ? S.times[i - 1] : 0;
+  if (i <= S.times.length) S.times = S.times.slice(0, i);
+  if (S.ready){ try { S.player.seekTo(Math.max(0, (prev || 0) - 1.5), true); S.player.playVideo(); } catch(err){} }
+  S.follow = true; paint();
+};
+/* 확인 모드: 찍은 시간대로 지금 줄을 빨갛게 */
+$("#check").onclick = e => {
+  S.check = !S.check; e.currentTarget.classList.toggle("on", S.check);
+  clearInterval(S.timer);
+  document.querySelectorAll("#list li.play").forEach(x => x.classList.remove("play"));
+  if (S.check){
+    let last = -1;
+    S.timer = setInterval(() => {
+      const t = now(); if (t == null) return;
+      let idx = -1; for (let i = 0; i < S.times.length; i++){ if (t + 0.25 >= S.times[i]) idx = i; else break; }
+      if (idx === last) return; last = idx;
+      document.querySelectorAll("#list li[data-i]").forEach((li, i) => li.classList.toggle("play", i === idx));
+      const cur = document.querySelector("#list li.play"); if (cur) cur.scrollIntoView({ block:"center", behavior:"smooth" });
+    }, 120);
+  }
+  paint();
+};
+const copy = async (ta, btn) => { try { await navigator.clipboard.writeText(ta.value); toast("복사했어요"); } catch(e){ ta.select(); document.execCommand("copy"); toast("복사했어요"); } };
+$("#copyTimes").onclick = () => copy($("#outTimes"));
+$("#copyText").onclick = () => copy($("#outText"));
+document.addEventListener("keydown", e => {
+  if (e.code !== "Space") return;
+  const tag = (document.activeElement && document.activeElement.tagName) || "";
+  if (tag === "TEXTAREA" || tag === "INPUT") return;
+  e.preventDefault(); mark();
+});
+
+/* ── 시작: 저장된 내용 복구 ── */
+(function(){
+  const d = load();
+  if (d.yt) $("#yt").value = d.yt;
+  if (d.text) $("#lyText").value = d.text;
+  if (d.old) $("#oldText").value = d.old;
+  S.lines = parseLyrics($("#lyText").value);
+  S.times = Array.isArray(d.times) ? d.times.slice(0, S.lines.length || undefined) : [];
+  if (S.lines.length) $("#lyBox").open = false;
+  S.follow = false; renderList();
+  if (ytId(d.yt)) mount();
+})();
+</script>
+</body>
+</html>
